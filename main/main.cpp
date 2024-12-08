@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2010-2022 Espressif Systems (Shanghai) CO LTD
- *
- * SPDX-License-Identifier: CC0-1.0
- */
-
 #include "esp_chip_info.h"
 #include "esp_flash.h"
 #include "esp_system.h"
@@ -14,12 +8,16 @@
 #include <inttypes.h>
 #include <stdio.h>
 
+// tasks
+#include <buttonTask.h>
+
 extern "C" void app_main(void);
 void print_memory_info(void);
 void loop(void *pvParameter);
 
 extern "C" void app_main(void) {
   xTaskCreate(loop, "loop", 4096, NULL, 1, NULL);
+  xTaskCreate(buttonTask, "button", 2048, NULL, 10, NULL);
 }
 
 void print_memory_info(void) {
